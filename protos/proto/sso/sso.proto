@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package auth; // package defines just name space; if same protobuf names in diff packages, nailing to a package avoids collision
+
+option go_package = "d-man.sso.v1;ssov1"; // technical param; needed for go; for python or java would not be needed
+
+
+service Auth {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminRequest);
+}
+
+message RegisterRequest {
+  string email = 1; // email of the user to register
+  string password = 2; // password of the user to register
+}
+
+message RegisterResponse {
+  int64 user_id = 1; // User ID of the registered user
+}
+
+message LoginRequest {
+  string email = 1; // email of the user to login
+  string password = 2; // password of the user to login
+  int32 app_id = 3; // ID of the app to login to
+}
+
+message LoginResponse {
+  string token = 1; // auth token of the logged in user; JWT
+}
+
+message IsAdminRequest {
+  int64 user_id = 1; // user ID to validate
+}
+
+message IsAdminResponse {
+  bool is_admin = 1; // is user admin or not
+}
+
+
+
